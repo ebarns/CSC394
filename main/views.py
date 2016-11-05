@@ -7,16 +7,10 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-<<<<<<< HEAD
-from models import Users, Degrees, Courses, DegreeRequirements, CompletedClasses
-from frms import AccountForm, RegistrationForm, StudentReadOnly, PlanForm
-from planner import Planner
-=======
-from main.models import Users, Degrees, Courses, DegreeRequirements
+from main.models import Users, Degrees, Courses, DegreeRequirements, CompletedClasses
 from main.frms import AccountForm, RegistrationForm, StudentReadOnly, PlanForm
+from main.planner import Planner
 
-
->>>>>>> ee9009173edf1c9654e343be5b601fc939c0de46
 #INDEX PAGE
 def index(request):
 
@@ -73,29 +67,11 @@ def coursecatalog(request):
 
 def browse(request):
     courses = Courses.objects.all()
-    degrees = DegreeRequirements.objects.all().order_by('degree_id')
-<<<<<<< HEAD
-    
-    browse  = []
-    current = []
-    names   = []
-    i = degrees[0].degree_id.id
-    names.append(degrees[0].degree_id.name)
-    for deg in degrees:
-        if deg.degree_id.id != i:
-            browse.append(current)
-            names.append(deg.degree_id.name)
-            current = []
-        current.append(deg)
-        
-    print browse
-    print names
-    return render(request,'main/browse.html',{'courses':courses,'degrees':degrees})
-=======
+    degrees = DegreeRequirements.objects.all().order_by('course_id__course_id')
     return render(request,'main/browse.html',{'courses':courses, 'degrees':degrees})
->>>>>>> ee9009173edf1c9654e343be5b601fc939c0de46
 
 def plan(request):
+    myplan = [[]]
     if request.method == 'POST':
         mjr     = request.POST['mjr']
         start   = request.POST['start']
@@ -103,21 +79,28 @@ def plan(request):
         
         taken   = []
         credits = 0
-        reqs    = DegreeRequirements.objects.filter(degree_id__id = mjr)
-        reqs    = [req.course_id for req in reqs]
+        deg_cred = Degrees.objects.get(id = mjr)
+        reqs_cls    = DegreeRequirements.objects.filter(degree_id__id = mjr).order_by('-required','course_id__course_id')
+        reqs    = [req.course_id for req in reqs_cls]
+        for r in reqs: print r.course_id
+        print (" \n\n")
         courses = Courses.objects.all()
+        courses = [c for c in courses if c not in reqs]
+        courses = reqs + courses
         
         if request.user.is_authenticated():
             taken   = CompletedClasses.objects.filter(studentID = request.user.id)
+            t    = [cls.courseID for cls in taken]
+            courses = [c for c in courses if c not in t]
             usr     = Users.objects.get(usr_acct=request.user.id)
             credits = usr.creditCnt
         
 
         plnr    = Planner(start, mjr, rate, reqs)
-        myplan  = plnr.plan(courses, taken, start, rate, credits)
+        myplan  = plnr.plan(courses, taken, start, rate, deg_cred.reqcredits)
         
     form = PlanForm()
-    return render(request,'main/plan.html',{'form':form})
+    return render(request,'main/plan.html',{'form':form,'plan':myplan})
 
 @login_required(login_url='login')
 def account(request):
