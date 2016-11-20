@@ -166,17 +166,21 @@ def addClass(request):
                                     window.parent.location.href = '/main/account';</script>""")   
                                 
 @login_required(login_url='login')
-def removeClass(request):
-    classid = request.POST['removeClass']
+def removePlan(request):
+    header = "removePath_"
+    head_len = len(header)
     try:
-        crse    =  Courses.objects.get(course_id = classid)
-        usr     = Users.objects.get(usr_acct=request.user.id)
-        CompletedClasses.objects.filter(studentID = usr, courseID = crse).delete()
-        return HttpResponse("""<script type='text/javascript'>alert ('Class Removed!'); 
-                                window.parent.location.href = '/main/account';</script>""")   
+        for key in request.POST:
+            pathID = key[head_len:]
+            print pathID
+            if "removePath_" in key:
+                SavedPaths.objects.filter(user_id = request.user.id, id = pathID).delete()
+                return HttpResponseRedirect('account')
+        return HttpResponse("""<script type='text/javascript'>alert ('This plan could not be deleted!'); 
+                                    window.parent.location.href = '/main/account';</script>""") 
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('account')
-    
+        return HttpResponse("""<script type='text/javascript'>alert ('This plan could not be found! (e.g CSC400)'); 
+                                    window.parent.location.href = '/main/account';</script>""")  
 @login_required(login_url='login')
 def view_student(request, username):
     uname = username

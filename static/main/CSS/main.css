@@ -12,6 +12,13 @@ h2{
 
 }
 
+.path_remove{
+    margin-left:1%;
+    moz-border-radius: 15px;
+     -webkit-border-radius: 15px;
+     border: none;
+}
+
 body{
     background-color:white;
 }
