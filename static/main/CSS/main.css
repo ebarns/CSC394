@@ -7,6 +7,11 @@ h2{
     color: rgb(30,91,148);
 }
 
+#login{
+    text-align: left !important;
+
+}
+
 body{
     background-color:white;
 }

@@ -43,7 +43,7 @@
         "fall" : 1,
         "winter": 1,
         "spring" : 1,
-        "summer": 1,
+        "summer": 0,
         "dormant": 0
         }
   },
@@ -57,9 +57,9 @@
         "prereq" : "CSC402",
         "credits": 4,
         "fall" : 1,
-        "winter": 1,
+        "winter": 0,
         "spring" : 1,
-        "summer": 1,
+        "summer": 0,
         "dormant": 0
         }
   },
@@ -72,7 +72,7 @@
         "description" :"An introductory graduate course on computer systems topics.",
         "prereq" : "CSC401",
         "credits": 4,
-        "fall" : 1,
+        "fall" : 0,
         "winter": 1,
         "spring" : 1,
         "summer": 1,
@@ -90,7 +90,7 @@
         "credits": 4,
         "fall" : 1,
         "winter": 1,
-        "spring" : 1,
+        "spring" : 0,
         "summer": 1,
         "dormant": 0
         }
@@ -107,7 +107,7 @@
         "fall" : 1,
         "winter": 1,
         "spring" : 1,
-        "summer": 1,
+        "summer": 0,
         "dormant": 0
         }
   },
@@ -137,9 +137,9 @@
         "prereq" : "CSC403 and CSC406",
         "credits": 4,
         "fall" : 1,
-        "winter": 1,
+        "winter": 0,
         "spring" : 1,
-        "summer": 1,
+        "summer": 0,
         "dormant": 0
         }
   },
@@ -152,9 +152,9 @@
         "description" :"A core graduate course in database design and implementation.",
         "prereq" : "CSC403",
         "credits": 4,
-        "fall" : 1,
+        "fall" : 0,
         "winter": 1,
-        "spring" : 1,
+        "spring" : 0,
         "summer": 1,
         "dormant": 0
         }
@@ -169,9 +169,9 @@
         "prereq" : "CSC403",
         "credits": 4,
         "fall" : 1,
-        "winter": 1,
+        "winter": 0,
         "spring" : 1,
-        "summer": 1,
+        "summer": 0,
         "dormant": 0
         }
   },
@@ -186,7 +186,7 @@
         "credits": 4,
         "fall" : 1,
         "winter": 1,
-        "spring" : 1,
+        "spring" : 0,
         "summer": 1,
         "dormant": 0
         }
@@ -216,7 +216,7 @@
         "description" :"Focus on software for developing web-based thin client applications.",
         "prereq" : "SE452",
         "credits": 4,
-        "fall" : 1,
+        "fall" : 0,
         "winter": 1,
         "spring" : 1,
         "summer": 1,
@@ -234,8 +234,8 @@
         "credits": 4,
         "fall" : 1,
         "winter": 1,
-        "spring" : 1,
-        "summer": 1,
+        "spring" : 0,
+        "summer": 0,
         "dormant": 0
         }
   },
@@ -249,7 +249,7 @@
         "prereq" : "SE430",
         "credits": 4,
         "fall" : 1,
-        "winter": 1,
+        "winter": 0,
         "spring" : 1,
         "summer": 1,
         "dormant": 0
@@ -264,7 +264,7 @@
         "description" :"Students will work in small teams to develop realistic software systems in a master-apprentice environment.",
         "prereq" : "SE450",
         "credits": 4,
-        "fall" : 1,
+        "fall" : 0,
         "winter": 1,
         "spring" : 1,
         "summer": 1,
@@ -280,10 +280,10 @@
         "description" :"This is the continuation of SE 491.",
         "prereq" : "SE491",
         "credits": 4,
-        "fall" : 1,
+        "fall" : 0,
         "winter": 1,
         "spring" : 1,
-        "summer": 1,
+        "summer": 0,
         "dormant": 0
         }
   },
@@ -298,7 +298,7 @@
         "credits": 4,
         "fall" : 1,
         "winter": 1,
-        "spring" : 1,
+        "spring" : 0,
         "summer": 1,
         "dormant": 0
         }
@@ -312,7 +312,7 @@
         "description" :"The course concentrates on Newton's Laws of Motion, kinematics and kinetics.",
         "prereq" : "CSC461 and SE450",
         "credits": 4,
-        "fall" : 1,
+        "fall" : 0,
         "winter": 1,
         "spring" : 1,
         "summer": 1,
@@ -330,8 +330,8 @@
         "credits": 4,
         "fall" : 1,
         "winter": 1,
-        "spring" : 1,
-        "summer": 1,
+        "spring" : 0,
+        "summer": 0,
         "dormant": 0
         }
   },
@@ -346,8 +346,8 @@
         "credits": 4,
         "fall" : 1,
         "winter": 1,
-        "spring" : 1,
-        "summer": 1,
+        "spring" : 0,
+        "summer": 0,
         "dormant": 0
         }
   },
@@ -360,7 +360,7 @@
         "description" :"Continuation of GAM 690",
         "prereq" : "GAM475",
         "credits": 4,
-        "fall" : 1,
+        "fall" : 0,
         "winter": 1,
         "spring" : 1,
         "summer": 1,
@@ -378,7 +378,7 @@
         "credits": 4,
         "fall" : 1,
         "winter": 1,
-        "spring" : 1,
+        "spring" : 0,
         "summer": 1,
         "dormant": 0
         }
@@ -394,7 +394,7 @@
         "credits": 4,
         "fall" : 1,
         "winter": 1,
-        "spring" : 1,
+        "spring" : 0,
         "summer": 1,
         "dormant": 0
         }
@@ -534,7 +534,7 @@
         "course_id": "IS560",
         "name" : "Enterprise Systems",
         "description" :"An introduction to enterprise systems for data and process integration, including ERP systems. ",
-        "prereq" : "*Advanced Standing*",
+        "prereq" : "IS421 and IS430",
         "credits": 4,
         "fall" : 1,
         "winter": 1,

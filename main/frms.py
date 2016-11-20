@@ -34,7 +34,7 @@ class AccountForm(forms.Form):
 class StudentReadOnly(forms.Form):
     first   = forms.CharField(label="First name", disabled=True, required=True)
     last    = forms.CharField(label="Last name", disabled=True, required=True)
-    usrname = forms.CharField(label="Username", disabled=True, required=True)
+    #usrname = forms.CharField(label="Username", disabled=True, required=True)
     email   = forms.EmailField(label="Email", disabled=True, required=True)
     mjr     = forms.ChoiceField(label="Major", choices=[(3,'MS CS: Software and Systems Development'),(4,'MS IS: Business Analysis/Systems Analysis'), (5,'MS IS: Standard')],required=True)
     enrled  = forms.BooleanField(required=False, disabled=True,  label="Enrolled")

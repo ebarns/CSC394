@@ -23,19 +23,18 @@
                     <p class="class_taken">{{ class.courseID.course_id }} : {{ class.courseID.name }}</p>
                 </div>
             {% endfor %}
-        <input name="addclass"/><input class="btn btn-primary submitbtn" type="submit" value="Add Class"/>
-        </form>
-        <form method="post" action="removeClass">
-                <input name="removeClass"/><input class="btn btn-primary submitbtn" type="submit" value="Remove Class"/>
+            <input name="addremoveclass"/>
+            <input name="addclass" class="btn btn-primary submitbtn" type="submit" value="Add Class"/>
+            <input name="removeclass" class="btn btn-primary submitbtn" type="submit" value="Remove Class"/>
         </form>
         {% if permission %}
-        <h3>Students</h4>
-        {% for stu in studentlst %}
-            <div class="row">
-                {% url 'view_student' username=stu.usr_acct.username as student_url %}
-                <a href="view_student/{{ stu.usr_acct.username }}"><input class="btn btn-default" value="{{ stu.usr_acct.username }}"></a>
-            </div>
-        {% endfor %}
+            <h3>Students</h4>
+            {% for stu in studentlst %}
+                <div class="row">
+                    {% url 'view_student' username=stu.usr_acct.username as student_url %}
+                    <a href="view_student/{{ stu.usr_acct.username }}"><input class="btn btn-default" value="{{ stu.usr_acct.username }}"></a>
+                </div>
+            {% endfor %}
         {% endif %}
     </div>
 {% endblock %}

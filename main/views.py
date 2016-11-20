@@ -109,6 +109,7 @@ def plan(request):
     form = PlanForm()
     return render(request,'main/plan.html',{'form':form,'plan':myplan})
 
+
 @login_required(login_url='login')
 def account(request):
     classes_taken = CompletedClasses.objects.filter(studentID = request.user.id)
@@ -130,16 +131,34 @@ def account(request):
 
 @login_required(login_url='login')
 def addClass(request):
-    classid =  request.POST['addclass']
-    try:
-        crse    =  Courses.objects.get(course_id = classid)
-        usr     = Users.objects.get(usr_acct=request.user.id)
-        taken   =  CompletedClasses(studentID = usr, courseID = crse)
-        taken.save()
-        return HttpResponseRedirect('account')
-    except ObjectDoesNotExist:
-        return HttpResponse("""<script type='text/javascript'>alert ('Class Does Not Exist! Try Again!'); 
-                                window.parent.location.href = '/main/account';</script>""")
+    if request.POST.get("addclass"):
+        try:
+            classid =  request.POST['addremoveclass']
+            crse    =  Courses.objects.get(course_id = classid)
+            tkn     = CompletedClasses.objects.filter(studentID=request.user.id)
+            if tkn:
+                tkn     = [c.courseID.course_id for c in tkn]
+                if classid in tkn:
+                    print "redirect"
+                    return HttpResponse("""<script type='text/javascript'>alert ('You have already taken this class! Try Again! (e.g CSC400)'); 
+                                    window.parent.location.href = '/main/account';</script>""")
+            usr     = Users.objects.get(usr_acct=request.user.id)
+            taken   =  CompletedClasses(studentID = usr, courseID = crse)
+            taken.save()
+            return HttpResponseRedirect('account')
+        except ObjectDoesNotExist:
+            return HttpResponse("""<script type='text/javascript'>alert ('Class Does Not Exist! Try Again! (e.g CSC400)'); 
+                                    window.parent.location.href = '/main/account';</script>""")
+    elif request.POST.get("removeclass"):  # You can use else in here too if there is only 2 submit types.
+        try:
+            classid = request.POST['addremoveclass']
+            crse    =  Courses.objects.get(course_id = classid)
+            usr     = Users.objects.get(usr_acct=request.user.id)
+            CompletedClasses.objects.filter(studentID = usr, courseID = crse).delete()
+            return HttpResponseRedirect('account')
+        except ObjectDoesNotExist:
+            return HttpResponse("""<script type='text/javascript'>alert ('You have not taken this class! Try Again! (e.g CSC400)'); 
+                                    window.parent.location.href = '/main/account';</script>""")   
                                 
 @login_required(login_url='login')
 def removeClass(request):
@@ -161,7 +180,7 @@ def view_student(request, username):
     stu2 = Users.objects.get(usr_acct = stu)
     usrinfo = stu
     #if user is faculty add a list of students they can assume identity of. 
-    form = StudentReadOnly(initial={'first':usrinfo.first_name,'last':usrinfo.last_name,'email':usrinfo.email,'usrname':usrinfo.username,'enrled':stu2.isEnrolled})
+    form = StudentReadOnly(initial={'first':usrinfo.first_name,'last':usrinfo.last_name,'email':usrinfo.email,'enrled':stu2.isEnrolled})
     return render(request,'main/view_student.html',{'form':form, 'classes_taken':classes_taken})
     
     
