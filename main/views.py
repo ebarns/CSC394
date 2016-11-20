@@ -131,17 +131,16 @@ def account(request):
 
 @login_required(login_url='login')
 def addClass(request):
+    classid =  request.POST['addremoveclass']
+    tkn     = CompletedClasses.objects.filter(studentID=request.user.id)
+    if tkn:
+        tkn     = [c.courseID.course_id for c in tkn]
+        if classid in tkn:
+            return HttpResponse("""<script type='text/javascript'>alert ('You have already taken this class! Try Again! (e.g CSC400)'); 
+                            window.parent.location.href = '/main/account';</script>""")
     if request.POST.get("addclass"):
         try:
-            classid =  request.POST['addremoveclass']
             crse    =  Courses.objects.get(course_id = classid)
-            tkn     = CompletedClasses.objects.filter(studentID=request.user.id)
-            if tkn:
-                tkn     = [c.courseID.course_id for c in tkn]
-                if classid in tkn:
-                    print "redirect"
-                    return HttpResponse("""<script type='text/javascript'>alert ('You have already taken this class! Try Again! (e.g CSC400)'); 
-                                    window.parent.location.href = '/main/account';</script>""")
             usr     = Users.objects.get(usr_acct=request.user.id)
             taken   =  CompletedClasses(studentID = usr, courseID = crse)
             taken.save()
@@ -151,7 +150,6 @@ def addClass(request):
                                     window.parent.location.href = '/main/account';</script>""")
     elif request.POST.get("removeclass"):  # You can use else in here too if there is only 2 submit types.
         try:
-            classid = request.POST['addremoveclass']
             crse    =  Courses.objects.get(course_id = classid)
             usr     = Users.objects.get(usr_acct=request.user.id)
             CompletedClasses.objects.filter(studentID = usr, courseID = crse).delete()
