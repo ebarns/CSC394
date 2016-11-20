@@ -131,14 +131,14 @@ def account(request):
 
 @login_required(login_url='login')
 def addClass(request):
-    classid =  request.POST['addremoveclass']
-    tkn     = CompletedClasses.objects.filter(studentID=request.user.id)
-    if tkn:
-        tkn     = [c.courseID.course_id for c in tkn]
+    if request.POST.get("addclass"):
+        classid =  request.POST['addremoveclass'].upper()
+        tkn     = CompletedClasses.objects.filter(studentID=request.user.id)
+        if tkn:
+            tkn     = [c.courseID.course_id for c in tkn]
         if classid in tkn:
             return HttpResponse("""<script type='text/javascript'>alert ('You have already taken this class! Try Again! (e.g CSC400)'); 
                             window.parent.location.href = '/main/account';</script>""")
-    if request.POST.get("addclass"):
         try:
             crse    =  Courses.objects.get(course_id = classid)
             usr     = Users.objects.get(usr_acct=request.user.id)
@@ -149,6 +149,13 @@ def addClass(request):
             return HttpResponse("""<script type='text/javascript'>alert ('Class Does Not Exist! Try Again! (e.g CSC400)'); 
                                     window.parent.location.href = '/main/account';</script>""")
     elif request.POST.get("removeclass"):  # You can use else in here too if there is only 2 submit types.
+        classid =  request.POST['addremoveclass'].upper()
+        tkn     = CompletedClasses.objects.filter(studentID=request.user.id)
+        if tkn:
+            tkn     = [c.courseID.course_id for c in tkn]
+            if classid not in tkn:
+                return HttpResponse("""<script type='text/javascript'>alert ('You have not taken this class! Try Again! (e.g CSC400)'); 
+                            window.parent.location.href = '/main/account';</script>""")
         try:
             crse    =  Courses.objects.get(course_id = classid)
             usr     = Users.objects.get(usr_acct=request.user.id)
