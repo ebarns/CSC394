@@ -80,8 +80,8 @@ def plan(request):
         credits = 0
         deg_cred = Degrees.objects.get(id = mjr)
         reqs_cls    = DegreeRequirements.objects.filter(degree_id__id = mjr).order_by('-required','course_id__course_id')
-        reqs    = [req.course_id for req in reqs_cls]
-
+        reqs    = [req.course_id for req in reqs_cls if req.required == True]
+        print reqs
         courses = Courses.objects.all()
         courses = [c for c in courses if c not in reqs]
         courses = reqs + courses
@@ -95,7 +95,7 @@ def plan(request):
         
 
         plnr    = Planner(start, mjr, rate, reqs)
-        myplan  = plnr.plan(courses, taken, start, rate, deg_cred.reqcredits)
+        myplan  = plnr.plan(courses, taken, start, rate, deg_cred.reqcredits, reqs)
         #if user is logged in  - store path 
         if request.user.is_authenticated():
             myplan_json = json.dumps(myplan)
