@@ -16,7 +16,8 @@ import json
 def index(request):
 
     return render(request, 'main/index.html', {})
-    
+   
+#login page - attempt to login user  
 def loginPage(request):
     if request.method == 'POST':
         usr = request.POST['username']
@@ -30,10 +31,12 @@ def loginPage(request):
             return HttpResponseRedirect('login')
     return render(request, 'main/login.html', {})
 
+#logout user using base script 
 def logoutPage(request):
     logout(request)
     return HttpResponseRedirect('login')
-    
+ 
+#User registration - if post validate form and register user   
 def register(request):
     deg                 = Degrees.objects.all()
     if len(deg) == 0:
@@ -59,15 +62,17 @@ def register(request):
         
     return render(request,'main/register.html',{'form': form})
 
-
+#not in use
 def coursecatalog(request):
     return render(request, 'main/coursecatalog.html', {})
 
+#browse page 
 def browse(request):
     courses = Courses.objects.all()
     degrees = DegreeRequirements.objects.all().order_by('course_id__course_id')
     return render(request,'main/browse.html',{'courses':courses, 'degrees':degrees})
 
+#Planner - if post process user plan and output algorithm response else present form 
 def plan(request):
     myplan = [[]]
     if request.method == 'POST':
@@ -109,6 +114,7 @@ def plan(request):
     return render(request,'main/plan.html',{'form':form,'plan':myplan})
 
 
+#user account - if faculty query for all students 
 @login_required(login_url='login')
 def account(request):
     classes_taken = CompletedClasses.objects.filter(studentID = request.user.id)
@@ -128,6 +134,7 @@ def account(request):
     studentlst = Users.objects.filter(isFaculty=False)
     return render(request,'main/account.html',{'form':form, 'classes_taken':classes_taken, 'studentlst':studentlst,'permission':permission, 'paths':paths})
 
+#attempt to add/remove class - if class is already taken or not found return an alert
 @login_required(login_url='login')
 def addClass(request):
     if request.POST.get("addclass"):
@@ -163,7 +170,8 @@ def addClass(request):
         except ObjectDoesNotExist:
             return HttpResponse("""<script type='text/javascript'>alert ('You have not taken this class! Try Again! (e.g CSC400)'); 
                                     window.parent.location.href = '/main/account';</script>""")   
-                                
+
+#remove plan - user has clicked x button. attempt to remove selected plan                                 
 @login_required(login_url='login')
 def removePlan(request):
     header = "removePath_"
@@ -180,6 +188,8 @@ def removePlan(request):
     except ObjectDoesNotExist:
         return HttpResponse("""<script type='text/javascript'>alert ('This plan could not be found! (e.g CSC400)'); 
                                     window.parent.location.href = '/main/account';</script>""")  
+
+#view students account in read only format 
 @login_required(login_url='login')
 def view_student(request, username):
     uname = username
@@ -192,13 +202,14 @@ def view_student(request, username):
     form = StudentReadOnly(initial={'first':usrinfo.first_name,'last':usrinfo.last_name,'email':usrinfo.email,'enrled':stu2.isEnrolled})
     return render(request,'main/view_student.html',{'form':form, 'classes_taken':tkn, 'saved_paths':plns})
     
-    
+#view degree plan - load from json and convert to 2d list    
 @login_required(login_url='login')
 def view_path(request, pth_id):
     pth = SavedPaths.objects.get(id=pth_id)
     pth = json.loads(pth.path)
     return render(request, 'main/view_path.html', {'path':pth})
-    
+
+#not implemented
 def about(request):
     pass
 

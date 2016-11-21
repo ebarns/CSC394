@@ -55,7 +55,7 @@ class Planner:
         return [] # loop has failed         
                     
          
-            
+    #if goal is met return true - checks length of schedule and requirements completed        
     def isGoal(self, opt, degreecredits, reqs):#return true if schedule is satisfied
         print ((len(opt.taken) + len(opt.termsched)) *4)
         if ((len(opt.taken) + len(opt.termsched)) *4 >= degreecredits):
@@ -69,6 +69,7 @@ class Planner:
         else:
             return False
     
+    #returns a list of valid states for the schedule 
     def getSuccessors(self, plnr, credits):
         options = []
         
@@ -107,7 +108,8 @@ class Planner:
                 #options = self.insertOption(options, courses_taken, course,current_total + estimate)
             i += 1 
         return options
-                
+     
+     #returns the list in a format to be printed out on page           
     def beautify_planner(self, planner, start, rate):
         term_names = ['Fall:','Winter:','Spring:','Summer:']
         i = 0
@@ -154,6 +156,7 @@ class Planner:
         return False
         
         #return True
+    #parses class prereqs
     def helper(self, pre, tkn_names):
         i = 0
         lst_len = len(pre)
@@ -219,11 +222,10 @@ class Planner:
             return crse.summer
         else:
             return False
-        
+ 
+ #class state - courses taken, term schedule, schedule, available classes, current term, rate of taking classes, number of classes still need to fill current term schedule        
 class state:
-    #course list
-    #current term
-    #current 
+
     def __init__(self, tkn, tsched, sched, avail, trm, rat,rt):
         self.taken      = tkn
         self.termsched  = tsched

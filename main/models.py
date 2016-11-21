@@ -34,8 +34,6 @@ class DegreeRequirements(models.Model):
     
 #extend Django User model
 class Users(models.Model):
-#    first       = models.CharField(max_length=128)
-#    last        = models.CharField(max_length=128)
     usr_acct    = models.OneToOneField(User, on_delete=models.CASCADE)
     degree      = models.ForeignKey(Degrees, default=None)
     creditCnt   = models.IntegerField(default=0)
